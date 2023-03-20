@@ -1,16 +1,17 @@
-
+import {Landing, Register, Error, Dashboard} from "./pages";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-    <h1>hello</h1>
-    <section>
-      <h2>my article</h2>
-      <article>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus quae sapiente soluta adipisci, dolores, provident nam ipsum illum, laudantium dolorum id perspiciatis accusantium. Provident sapiente fugiat dignissimos, cum quos earum.
-      </article>
-    </section>
-    </div>
+    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element = {<Dashboard/>}/>
+        <Route path="/register" element = {<Register/>}/>
+        <Route path="/landing" element = {<Landing/>}/>
+        <Route path="*" element = {<Error/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
