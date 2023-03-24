@@ -1,6 +1,6 @@
 const AllJobs = () => {
   return (
-    <div>AllJobs</div>
+    <h1>AllJobs</h1>
   )
 }
 export default AllJobs
