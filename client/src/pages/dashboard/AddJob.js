@@ -55,6 +55,14 @@ const AddJob = () => {
             value={jobLocation}
             handleChange={handleJobInput}
           />
+
+          <div className="form-row">
+            <label htmlFor="jobType" className="form-label">
+              job  type
+            </label>
+            <select name="jobType" value={jobType} onChange ={handleJobInput} className='form-select'></select>
+          </div>
+
           <div className="btn-container">
             <button type="submit" className="btn btn-block submit-btn" onClick={handleSubmit}>
               submit
