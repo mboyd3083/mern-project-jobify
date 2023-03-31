@@ -1,9 +1,10 @@
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
-import { FormRow, Alert } from "../../components";
+import { FormRow, Alert, FormRowSelect } from "../../components";
 import { useAppContext } from "../../context/appContext";
 
 const AddJob = () => {
   const {
+    isLoading,
     showAlert,
     displayAlert,
     position,
@@ -14,20 +15,29 @@ const AddJob = () => {
     status,
     statusOptions,
     isEditing,
+    handleChange,
+    clearValues,
+    createJob,
   } = useAppContext();
 
   const handleJobInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    console.log(`${name}: ${value}`);
+    handleChange(name, value);
+    console.log(name);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!position || !company || !jobLocation) {
-      displayAlert();
+    // if (!position || !company || !jobLocation) {
+    //   displayAlert();
+    // }
+
+    if(isEditing){
+      return
     }
+    createJob();
   };
 
   return (
@@ -56,16 +66,39 @@ const AddJob = () => {
             handleChange={handleJobInput}
           />
 
-          <div className="form-row">
-            <label htmlFor="jobType" className="form-label">
-              job  type
-            </label>
-            <select name="jobType" value={jobType} onChange ={handleJobInput} className='form-select'></select>
-          </div>
+          <FormRowSelect
+            name="status"
+            value={status}
+            handleChange={handleJobInput}
+            list={statusOptions}
+          />
+
+          <FormRowSelect
+            name="jobType"
+            value={jobType}
+            labelText="job type"
+            handleChange={handleJobInput}
+            list={jobTypeOptions}
+          />
 
           <div className="btn-container">
-            <button type="submit" className="btn btn-block submit-btn" onClick={handleSubmit}>
+            <button
+              type="submit"
+              className="btn btn-block submit-btn"
+              onClick={handleSubmit}
+              disabled = {isLoading}
+            >
               submit
+            </button>
+            <button
+              type="button"
+              className="btn btn-block clear-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                clearValues();
+              }}
+            >
+              clear
             </button>
           </div>
         </div>
