@@ -24,18 +24,17 @@ const AddJob = () => {
     const name = e.target.name;
     const value = e.target.value;
     handleChange(name, value);
-    console.log(name);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // if (!position || !company || !jobLocation) {
-    //   displayAlert();
-    // }
+    if (!position || !company || !jobLocation) {
+      displayAlert();
+    }
 
-    if(isEditing){
-      return
+    if (isEditing) {
+      return;
     }
     createJob();
   };
@@ -86,7 +85,7 @@ const AddJob = () => {
               type="submit"
               className="btn btn-block submit-btn"
               onClick={handleSubmit}
-              disabled = {isLoading}
+              disabled={isLoading}
             >
               submit
             </button>
