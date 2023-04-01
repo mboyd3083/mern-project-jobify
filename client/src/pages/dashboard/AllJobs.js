@@ -1,6 +1,12 @@
+import { useAppContext } from "../../context/appContext";
+import { SearchContainer, JobsContainer } from "../../components";
 const AllJobs = () => {
+  const { getJobs } = useAppContext();
   return (
-    <h1>AllJobs</h1>
-  )
-}
-export default AllJobs
+    <>
+      <SearchContainer />
+      <JobsContainer />
+    </>
+  );
+};
+export default AllJobs;
