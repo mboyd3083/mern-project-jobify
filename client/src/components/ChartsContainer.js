@@ -1,5 +1,5 @@
-import BarChart from "./BarChart";
-import AreaChart from "./AreaChart";
+import BarChart from "./BarChartComponent";
+import AreaChart from "./AreaChartComponent";
 import { useAppContext } from "../context/appContext";
 import Wrapper from "../assets/wrappers/ChartsContainer";
 import { useState } from "react";
