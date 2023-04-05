@@ -24,7 +24,7 @@ const AddJob = () => {
   const handleJobInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    handleChange(name, value);
+    handleChange({ name, value });
   };
 
   const handleSubmit = (e) => {
@@ -35,7 +35,7 @@ const AddJob = () => {
     }
 
     if (isEditing) {
-      editJob()
+      editJob();
       return;
     }
     createJob();
