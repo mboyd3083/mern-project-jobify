@@ -28,6 +28,7 @@ import {
   EDIT_JOB_ERROR,
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
+  CLEAR_FILTERS,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -58,6 +59,11 @@ const initialState = {
   page: 1,
   stats: {},
   monthlyApplications: [],
+  search: "",
+  searchStatus: "all",
+  searchType: "all",
+  sort: "latest",
+  sortOptions: ["latest", "oldest", "a-z", "z-a"],
 };
 
 const AppContext = React.createContext();
@@ -168,7 +174,7 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
-  const handleChange = (name, value) => {
+  const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
 
@@ -201,7 +207,12 @@ const AppProvider = ({ children }) => {
   };
 
   const getJobs = async () => {
-    let url = `/jobs`;
+    const { search, searchStatus, searchType, sort } = state;
+    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+
+    if (search) {
+      url = url + `&search=${search}`;
+    }
 
     dispatch({ type: GET_JOBS_BEGIN });
 
@@ -262,20 +273,24 @@ const AppProvider = ({ children }) => {
 
   const showStats = async () => {
     dispatch({ type: SHOW_STATS_BEGIN });
-   try {
-     const { data } = await authFetch.get("/jobs/stats");
-     dispatch({
-       type: SHOW_STATS_SUCCESS,
-       payload: {
-         stats: data.defaultStats,
-         monthlyApplications: data.monthlyApplications,
-       },
-     });
-   } catch (error) {
-    console.log(error.response)
-    //logoutUser();
-   }
-   clearAlert();
+    try {
+      const { data } = await authFetch.get("/jobs/stats");
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyApplications: data.monthlyApplications,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+      //logoutUser();
+    }
+    clearAlert();
+  };
+
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS });
   };
 
   return (
@@ -295,6 +310,7 @@ const AppProvider = ({ children }) => {
         deleteJob,
         editJob,
         showStats,
+        clearFilters,
       }}
     >
       {children}
