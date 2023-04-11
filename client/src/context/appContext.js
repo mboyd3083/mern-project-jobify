@@ -30,6 +30,7 @@ import {
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
   CHANGE_PAGE,
+  DELETE_JOB_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -92,7 +93,6 @@ const AppProvider = ({ children }) => {
       return response;
     },
     (error) => {
-      console.log(error.response);
       if (error.response.status === 401) {
         logoutUser();
       }
@@ -226,7 +226,7 @@ const AppProvider = ({ children }) => {
         payload: { jobs, totalJobs, numOfPages },
       });
     } catch (error) {
-      console.log(error.response);
+      logoutUser();
     }
     clearAlert();
   };
@@ -267,9 +267,13 @@ const AppProvider = ({ children }) => {
       await authFetch.delete(`/jobs/${jobId}`);
       getJobs();
     } catch (error) {
-      console.log(error.response);
-      // logoutUser();
+      if (error.response.status === 401) return;
+      dispatch({
+        type: DELETE_JOB_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
     }
+    clearAlert();
   };
 
   const showStats = async () => {
@@ -285,7 +289,7 @@ const AppProvider = ({ children }) => {
       });
     } catch (error) {
       console.log(error.response);
-      //logoutUser();
+      logoutUser();
     }
     clearAlert();
   };
