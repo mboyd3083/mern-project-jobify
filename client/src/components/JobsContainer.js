@@ -2,6 +2,7 @@ import { useAppContext } from "../context/appContext";
 import { useEffect } from "react";
 import Loading from "./Loading";
 import Job from "./Job";
+import Alert from "./Alert";
 import Wrapper from "../assets/wrappers/JobsContainer";
 import PageBtnContainer from "./PageBtnContainer";
 
@@ -17,10 +18,12 @@ const JobsContainer = () => {
     searchType,
     sort,
     numOfPages,
+    showAlert,
   } = useAppContext();
 
   useEffect(() => {
     getJobs();
+    // eslint-disable-next-line
   }, [search, searchStatus, searchType, sort, page]);
 
   if (isLoading) {
@@ -37,6 +40,7 @@ const JobsContainer = () => {
 
   return (
     <Wrapper>
+      {showAlert && <Alert />}
       <h5>
         {totalJobs} job{jobs.length > 1 && "s"} found
       </h5>
